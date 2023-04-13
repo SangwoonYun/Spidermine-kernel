@@ -147,8 +147,11 @@ struct ptrace_rseq_configuration {
 #define PTRACE_O_EXITKILL		(1 << 20)
 #define PTRACE_O_SUSPEND_SECCOMP	(1 << 21)
 
+/* additional option for spidermine: MMAPTRACE */
+#define PTRACE_O_MMAPTRACE      (1 << 22)
+
 #define PTRACE_O_MASK		(\
-	0x000000ff | PTRACE_O_EXITKILL | PTRACE_O_SUSPEND_SECCOMP)
+	0x000000ff | PTRACE_O_EXITKILL | PTRACE_O_SUSPEND_SECCOMP | PTRACE_O_MMAPTRACE)
 
 #include <asm/ptrace.h>
 

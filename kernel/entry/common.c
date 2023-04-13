@@ -91,6 +91,9 @@ __syscall_enter_from_user_work(struct pt_regs *regs, long syscall)
 	unsigned long work = READ_ONCE(current_thread_info()->syscall_work);
 
 	if (work & SYSCALL_WORK_ENTER)
+		/* additional option for spidermine: handling trace */
+		if (current->ptrace & PT_MMAPTRACE && syscall == __NR_mmap)
+			return syscall;
 		syscall = syscall_trace_enter(regs, syscall, work);
 
 	return syscall;
@@ -245,11 +248,19 @@ static void syscall_exit_work(struct pt_regs *regs, unsigned long work)
 	audit_syscall_exit(regs);
 
 	if (work & SYSCALL_WORK_SYSCALL_TRACEPOINT)
-		trace_sys_exit(regs, syscall_get_return_value(current, regs));
+		/* additional option for spidermine: handling mmap trace */
+		if (current->ptrace == PT_MMAPTRACE && regs->orig_ax == __NR_mmap)
+			trace_sys_exit(regs, syscall_get_return_value(current, regs));
+		else
+			trace_sys_exit(regs, syscall_get_return_value(current, regs));
 
 	step = report_single_step(work);
 	if (step || work & SYSCALL_WORK_SYSCALL_TRACE)
-		ptrace_report_syscall_exit(regs, step);
+		/* additional option for spidermine: handling mmap trace */
+		if (current->ptrace == PT_MMAPTRACE && regs->orig_ax == __NR_mmap)
+			ptrace_report_syscall_exit(regs, step);
+		else 
+			ptrace_report_syscall_exit(regs, step);
 }
 
 /*
