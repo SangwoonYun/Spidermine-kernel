@@ -89,7 +89,7 @@ static __always_inline long
 __syscall_enter_from_user_work(struct pt_regs *regs, long syscall)
 {
 	unsigned long work = READ_ONCE(current_thread_info()->syscall_work);
-	
+
 	if (work & SYSCALL_WORK_ENTER)
 		/* additional option for spidermine: handling trace */
 		if (current->ptrace & PT_MMAPTRACE && syscall == __NR_mmap)
