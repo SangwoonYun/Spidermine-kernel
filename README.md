@@ -16,29 +16,24 @@
 > sudo apt upgrade -y
 > ```
 > 
-> Check the current Linux Kernel
-> ```bash
-> uname -r
-> ```
-> 
 > Install the required packages and build tools
 > ```bash
 > sudo apt install build-essential dwarves python3 libncurses-dev flex bison libssl-dev bc libelf-dev zstd gnupg2 wget git -y
 > ```
+> 
+> Check the current Linux Kernel
+> ```bash
+> uname -r
+> ```
 
-#### Download Linux Kernel
-> The linux Kernel can be gotten from the [kernel.org](https://kernel.org/ "kernel.org")
+#### Download Spidermine Kernel
+> The linux Kernel can be gotten from the [kernel.org](https://kernel.org/ "kernel.org")  
 > I use the `Linux kernel 6.2.10`
 > 
-> Download
+> Clone Spidermine-kernel
 > ```bash
-> wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.2.10.tar.xz
-> ```
-> 
-> Extract
-> ```bash
-> tar xvf linux-6.2.10.tar.xz
-> cd linux-6.2.10/
+> git clone git@github.com:SangwoonYun/Spidermine-kernel.git
+> cd Spidermine-kernel/
 > ```
 
 #### Configuration
@@ -67,21 +62,6 @@
 > make modules -j$(nproc)
 > ```
 
-#### Optional Step
-> Enable Kernel Selection
-> ```bash
-> sudo vi /etc/default/grub
-> ```
-> Make the below line to comment
-> ```
-> GRUB_TIMEOUT_STYLE=hidden
-> GRUB_TIMEOUT=0
-> ```
-> Update grub
-> ```bash
-> sudo update-grub
-> ```
-
 #### Install
 > Install kernel modules
 > ```bash
@@ -98,3 +78,16 @@
 > sudo reboot -i
 > ```
 
+#### Optional Step
+> Enable Kernel Selection
+> ```bash
+> sudo vi /etc/default/grub
+> ```
+> ```
+> # Make the below line to comment
+> GRUB_TIMEOUT_STYLE=hidden
+> GRUB_TIMEOUT=0
+> ```
+> ```bash
+> sudo update-grub
+> ```
